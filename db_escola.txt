@@ -1,0 +1,77 @@
+DROP DATABASE db_escola;
+
+CREATE DATABASE db_escola;
+
+USE db_escola;
+
+CREATE TABLE instrutor(
+idinstrutor INT NOT NULL AUTO_INCREMENT,
+nome varchar(50) not null,
+rg INT NOT NULL,
+nascimento datetime NULL,
+titulacao INT NULL,
+PRIMARY KEY (idinstrutor)
+);
+
+CREATE TABLE telefoneinstrutor(
+idtelefone INT NOT NULL AUTO_INCREMENT,
+telefone int(11) not null,
+tipo VARCHAR(15) NULL,
+idinstrutor INT NOT NULL,
+PRIMARY KEY (idtelefone),
+FOREIGN KEY (idinstrutor) REFERENCES instrutor(idinstrutor)
+);
+
+CREATE TABLE atividade(
+idatividade INT NOT NULL AUTO_INCREMENT,
+nome VARCHAR(100) NOT NULL,
+descricao text,
+PRIMARY KEY (idatividade)
+);
+
+CREATE TABLE turma(
+idturma INT NOT NULL AUTO_INCREMENT,
+horario TIME NOT NULL,
+duracao INT NOT NULL,
+datainicio DATE NOT NULL,
+datafim DATE NOT NULL,
+idinstrutor INT NOT NULL,
+PRIMARY KEY (idturma),
+FOREIGN KEY (idinstrutor) REFERENCES instrutor(idinstrutor)
+);
+
+CREATE TABLE aluno(
+idaluno INT NOT NULL AUTO_INCREMENT,
+nome VARCHAR(45) NOT NULL,
+datanascimento DATE NULL,
+altura FLOAT NULL,
+peso INT NULL,
+PRIMARY KEY (idaluno)
+);
+
+CREATE TABLE matricula(
+idaluno INT NOT NULL,
+idturma INT NOT NULL,
+PRIMARY KEY (idaluno,idturma),
+FOREIGN KEY (idaluno) REFERENCES aluno(idaluno),
+FOREIGN KEY (idturma) REFERENCES turma(idturma)
+);
+
+CREATE TABLE chamada(
+idchamada INT NOT NULL AUTO_INCREMENT,
+data DATE NOT NULL,
+presente BOOL NOT NULL,
+idaluno INT NOT NULL,
+idturma INT NOT NULL,
+PRIMARY KEY (idchamada),
+FOREIGN KEY (idaluno) REFERENCES matricula(idaluno),
+FOREIGN KEY (idturma) REFERENCES matricula(idturma)
+);
+
+desc instrutor;
+desc telefoneinstrutor;
+desc atividade;
+desc turma;
+desc aluno;
+desc matricula;
+desc chamada;
